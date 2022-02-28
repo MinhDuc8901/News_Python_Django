@@ -1,0 +1,37 @@
+
+
+
+{% block content %}
+<style>
+    .container{
+        display: flex;
+        
+    }
+    .container div{
+        margin :50px;
+    }
+</style>
+<div class="container"> 
+    <div>
+        <form method="GET" action="{% url 'home' %}">
+            <input type="text" name="q" placeholder="Search ..."/>
+        </form>
+        <a href="{% url 'home' %}">All</a>
+        {% for item in topic%}
+            <p>
+                <a href="{% url 'home'%}?q={{item.name}}">{{item.name}}</a>
+            </p>
+        {%endfor%}
+    </div>
+    <div>
+        {% for item in room%}
+            <a href="{% url 'new' item.id%}">
+                <p>{{item.topic.name}}</p>
+                <img src="{{item.image.url}}"/>
+                <p>{{item.title}}</p>
+            </a>
+        {% endfor%}
+    </div>
+</div>
+
+{% endblock %}
