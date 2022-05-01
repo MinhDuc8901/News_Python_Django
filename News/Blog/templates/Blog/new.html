@@ -1,9 +1,23 @@
 
 
 {% block content %}
-    <p>{{new.title}}</p>
+    <div class="container">
+        <p>{{new.title}}</p>
     <p>{{new.topic.name}}</p>
     <img src="{{new.image.url}}"/>
-    <p>{{new.topic.description}}</p>
+    <p>{{new.description}}</p>
+    <p class="a">{{new.content| safe}}</p>
 
+    </div>
 {% endblock %}
+
+<style>
+    .container{
+        margin-left:200px;
+        
+
+    }
+    .a{
+        width: 100px;
+    }
+</style>

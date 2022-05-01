@@ -1,24 +1,26 @@
+{% load static%}
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+    <script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+  </head>
 
-<body>
+  <body>
     <div>
-        <form action="" method="POST">
-            {%csrf_token %}
-            <p>{{form.title}}</p>
-            <p>{{form.topic}}</p>
-            <p>{{form.description}}</p>
-
-            <input type="submit" >
-        </form>
+      <form action="" method="POST">
+        {%csrf_token %}
+        <p>{{form.title}}</p>
+        <p>{{form.topic}}</p>
+        <p>{{form.description}}</p>
+        <p class="a">{{form.content| safe}}</p>
+        <input type="submit" />
+      </form>
     </div>
-</body>
-
+  </body>
 </html>

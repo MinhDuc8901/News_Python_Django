@@ -30,10 +30,10 @@ class index(LoginRequiredMixin,View):
         return HttpResponse('hello')
 
 
-class Push(View):
-    def get(self, request):
-        room = Room.objects.all()
-        return render(request,'create/push.html',{'room':room})
+@decorators.login_required(login_url='login')
+def Push(request):
+    room = Room.objects.all()
+    return render(request,'create/push.html',{'room':room})
 @decorators.login_required(login_url='login')
 def Logout(request):
     logout(request)
