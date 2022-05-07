@@ -4,10 +4,12 @@ from ckeditor.fields import RichTextField
 # Create your models here.
 
 
+
 class Topic(models.Model):
     name = models.CharField(max_length=200, null = True, blank = True)
     def __str__(self):
         return self.name
+
 
 class Room(models.Model):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE, null=True)

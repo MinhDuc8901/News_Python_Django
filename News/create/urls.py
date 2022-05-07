@@ -10,4 +10,8 @@ urlpatterns = [
     path('createpage/',views.create, name ='createpage'),
     path('updatepage/<str:pk>/',views.update, name ='updatepage'),
     path('delete/<str:pk>/',views.delete, name ='delete'),
+    path('topic/', views.Topic, name ='topic'),
+    path('addtopic/', views.AddTopic, name ='addtopic'),
+    path('updatetopic/<str:pk>/',views.updatetopic, name ='updatetopic'),
+    path('deletetopic/<str:pk>/',views.deletetopic, name ='deletetopic'),
 ]
