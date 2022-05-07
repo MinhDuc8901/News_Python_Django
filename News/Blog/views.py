@@ -1,9 +1,9 @@
 from multiprocessing import context
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from django.db.models import Q
-from .models import Room , Topic
-
+from .models import Room , Topic, Comment
+from .forms import Comment
 # Create your views here.
 
 
@@ -20,6 +20,15 @@ def index(request):
 
 def new(request , pk):
     new = Room.objects.get(id = pk)
-    context = {'new':new}
+    comment = Comment.objects.filter(room__id = pk)
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        description = request.POST.get('comment')
+        comment = Comment.objects.create(room = new, name = name, description = description)
+        comment.save()
+        
+        return redirect(request.path)
+
+    context = {'new':new,'comment':comment,}
     return render(request, 'Blog/new.html',context)
 
