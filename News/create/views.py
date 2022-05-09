@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout,decorators
 from django.contrib.auth.mixins import LoginRequiredMixin
 from Blog.models import Room
 from Blog.models import Topic as Topics
-
+from django.core.paginator import Paginator
 from .forms import RoomForm, TopicForm
 from django.contrib.auth.models import Permission
 
@@ -30,13 +30,17 @@ class LoginView(View):
 class index(LoginRequiredMixin,View):
     login_url= 'login'
     def get(self,request):
-        return HttpResponse('hello')
+        return render (request,'create/index1.html')
 
 
 @decorators.login_required(login_url='login')
 def Push(request):
     room = Room.objects.all()
-    return render(request,'create/push.html',{'room':room})
+    paginator = Paginator(room, 1) # Show 25 contacts per page.
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request,'create/index2.html',{'room':room, 'page_obj': page_obj})
 
 @decorators.login_required(login_url='login')
 def Logout(request):
@@ -54,7 +58,7 @@ def create (request):
                 form.save()
                 return redirect('push')
         context = {'form': form}
-        return render(request, 'create/createpage.html',context)
+        return render(request, 'create/index5.html',context)
     else: return HttpResponse('ban khong co quyen')
 
 @decorators.login_required(login_url='login')
@@ -70,7 +74,7 @@ def update(request,pk):
 
         context = {'form': form }
 
-        return render(request,'create/createpage.html',context)
+        return render(request,'create/index5.html',context)
     else: return HttpResponse('ban khong co quyen')
 
 @decorators.login_required(login_url='login')
@@ -85,9 +89,11 @@ def delete(request,pk):
 def Topic(request):
     if request.user.has_perm('create.topic'):
         topics = Topics.objects.all()
-
-        context = {'topic': topics}
-        return render(request, 'create/hometopic.html',context)
+        paginator = Paginator(topics, 1)
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        context = {'topic': topics,'page_obj': page_obj}
+        return render(request, 'create/index3.html',context)
     else : return HttpResponse('ban khong cos quyen')
 
 @decorators.login_required(login_url='login')
@@ -101,7 +107,7 @@ def AddTopic(request):
                 form.save()
                 return redirect('topic')
         context = {'form': form}
-        return render(request, 'create/topic.html',context)
+        return render(request, 'create/index4.html',context)
     else: return HttpResponse('ban khong co quyen')
 
 @decorators.login_required(login_url='login')
@@ -117,7 +123,7 @@ def updatetopic(request,pk):
 
         context = {'form': form }
 
-        return render(request,'create/topic.html',context)
+        return render(request,'create/index4.html',context)
     else: return HttpResponse('ban khong co quyen')
 
 @decorators.login_required(login_url='login')
