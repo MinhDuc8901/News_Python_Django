@@ -9,6 +9,7 @@ from Blog.models import Topic as Topics
 from django.core.paginator import Paginator
 from .forms import RoomForm, TopicForm
 from django.contrib.auth.models import Permission
+from django.contrib.auth.models import User 
 
 # Create your views here.
 
@@ -36,7 +37,7 @@ class index(LoginRequiredMixin,View):
 @decorators.login_required(login_url='login')
 def Push(request):
     room = Room.objects.all()
-    paginator = Paginator(room, 1) # Show 25 contacts per page.
+    paginator = Paginator(room, 10) # Show 25 contacts per page.
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -53,7 +54,7 @@ def create (request):
         form = RoomForm()
         
         if request.method == 'POST':
-            form = RoomForm(request.POST)
+            form = RoomForm(request.POST,request.FILES)
             if form.is_valid():
                 form.save()
                 return redirect('push')
@@ -67,7 +68,7 @@ def update(request,pk):
         room = Room.objects.get(id= pk)
         form = RoomForm(instance = room)
         if request.method == 'POST':
-            form = RoomForm(request.POST, instance = room)
+            form = RoomForm(request.POST,request.FILES, instance = room)
             if form.is_valid():
                 form.save()
                 return redirect('push')
@@ -89,7 +90,7 @@ def delete(request,pk):
 def Topic(request):
     if request.user.has_perm('create.topic'):
         topics = Topics.objects.all()
-        paginator = Paginator(topics, 1)
+        paginator = Paginator(topics, 10)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         context = {'topic': topics,'page_obj': page_obj}
@@ -131,6 +132,11 @@ def deletetopic(request,pk):
     if request.user.has_perm('create.delete_delete'):
         topic = Topics.objects.get(id=pk)
         topic.delete()
+        user = User.objects.create(username=request.user.username)
+        user.save()
         return redirect('topic')
     else : return HttpResponse('ban khong co quyen')
+
+
+
 

@@ -15,7 +15,7 @@ def index(request):
         Q(title__contains = q)
     )
     topic = Topic.objects.all()
-    paginator = Paginator(room, 1)
+    paginator = Paginator(room, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     context = {'room': room, 'topic': topic,'page_obj': page_obj}

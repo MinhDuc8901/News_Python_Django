@@ -38,6 +38,11 @@
       href="{% static 'lib\datetimepicker\css\bootstrap-datetimepicker.min.css' %}"
     />
     <link rel="stylesheet" href="{% static 'css\app.css' %}" type="text/css" />
+    <style>
+      table, th, td {
+        border:1px solid black;
+      }
+      </style>
   </head>
   <body>
     <div class="be-wrapper be-fixed-sidebar">
@@ -274,10 +279,15 @@
                     >
                   </li>
                   <li class="parent">
-                    <a href="{% url 'push'%}"
-                      ><i class="icon mdi mdi-face"></i><span>News</span></a
+                    <a href="http://127.0.0.1:8000"
+                      ><i class="icon mdi mdi-face"></i><span>Home</span></a
                     >
                   </li>
+                  <li class="parent">
+                    <a href="{% url 'push'%}"
+                      ><i class="icon mdi mdi-face"></i><span>News</span></a
+                      >
+                    </li>
                   <li class="parent">
                     <a href="{% url 'topic'%}"
                       ><i class="icon mdi mdi-face"></i><span>Topic</span></a
@@ -312,7 +322,7 @@
             <a href="{% url 'createpage'%}">Create News</a>
           </div>
           <div class="row">
-            <table>
+            <table style="width:100%">
               <tr>
                 <th>Name</th>
                 <th>Name</th>
