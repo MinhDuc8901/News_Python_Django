@@ -132,8 +132,6 @@ def deletetopic(request,pk):
     if request.user.has_perm('create.delete_delete'):
         topic = Topics.objects.get(id=pk)
         topic.delete()
-        user = User.objects.create(username=request.user.username)
-        user.save()
         return redirect('topic')
     else : return HttpResponse('ban khong co quyen')
 
